@@ -18,6 +18,13 @@ $(function() {
       dataType: "json",
       url: 'http://api-pelias-test.mapzen.com' + query_string,
       success: function(geoJson) {
+        for (key in geoJson.features) {
+          if (geoJson.features.hasOwnProperty(key)) {
+            obj = geoJson.features[key];
+            $('#search-results').append('<a href="#" class="list-group-item"><h4 class="list-group-item-heading">'+obj.properties.title+'</h4><p class="list-group-item-text">'+obj.properties.description+'</p></a>');
+            console.log(obj);
+          }
+        }
         var markerLayer = L.mapbox.markerLayer(geoJson);
         markerLayer.addTo(map);
         map.fitBounds(markerLayer.getBounds());

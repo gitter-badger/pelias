@@ -3,6 +3,12 @@
   height: 600px;
 }
 
+#search-form {
+  padding-bottom: 10px;
+}
+
+#search-results {}
+
 .twitter-typeahead {
     width: 100%;
     position: relative;
