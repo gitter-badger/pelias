@@ -28,4 +28,17 @@ $(function() {
       engine: Hogan
     }
   ])
-});
+}).bind('typeahead:selected', function (obj, datum) {
+    console.log(map);
+    var marker = L.marker([datum.lonlat[1], datum.lonlat[0]]).addTo(map);
+    map.panTo([datum.lonlat[1], datum.lonlat[0]]);
+    if (datum.type=='address' || datum.type=='poi') {
+      map.setZoom(17);
+    }
+    else if (datum.type=='street') {
+      map.setZoom(15);
+    }
+    else {
+      map.setZoom(13);
+    }
+});;
