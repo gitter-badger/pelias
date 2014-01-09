@@ -3,11 +3,17 @@
   height: 600px;
 }
 
-#search-form {
+.form-inline {
   padding-bottom: 10px;
 }
 
 #search-results {}
+
+#reverse-form {
+  display: none;
+}
+
+#tabs {}
 
 .twitter-typeahead {
     width: 100%;

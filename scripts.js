@@ -45,35 +45,60 @@ $(function() {
       }
       $_GET[decode(arguments[1])] = decode(arguments[2]);
     });
-    var query = $_GET.query;
-    $('#typeahead').val(query);
-    var query_string = '/search?query=' + query;
-    $.ajax({
-      type: 'GET',
-      dataType: "json",
-      url: 'http://api-pelias-test.mapzen.com' + query_string,
-      success: function(geoJson) {
-        create_marker(geoJson.features[0]);
-        for (key in geoJson.features) {
-          if (geoJson.features.hasOwnProperty(key)) {
-            obj = geoJson.features[key];
-            searchResults.push(obj);
-            $('#search-results').append('<a href="#" class="list-group-item" id="'+'search-result-'+key+'"><h4 class="list-group-item-heading">'+obj.properties.title+'</h4><p class="list-group-item-text">'+obj.properties.description+'</p></a>');
-            $('#search-result-'+key).click({key: key}, function(event) {
-              var result = searchResults[event.data.key];
-              create_marker(result);
-              if (activeResult != null) {
-                $(activeResult).toggleClass('active');
-              }
-              activeResult = '#search-result-'+event.data.key;
-              $('#search-result-'+event.data.key).toggleClass('active');
-            });
+    if ($_GET.type=='reverse') {
+      showReverse();
+      $('#lon').val($_GET.lon);
+      $('#lat').val($_GET.lat);
+      var query_string = '/reverse?lat=' + $_GET.lat + '&lng=' + $_GET.lon;
+      $.ajax({
+        type: 'GET',
+        dataType: "json",
+        url: 'http://api-pelias-test.mapzen.com' + query_string,
+        success: function(geoJson) {
+          $('#geocoding-results').append('<a href="#" class="list-group-item"><h4 class="list-group-item-heading">'+geoJson.name+'</h4><p class="list-group-item-text">'+geoJson.level+'</p></a>');
+          var lonlat = [$_GET.lat, $_GET.lon];
+          for (i=0; i<markers.length; i++) {
+            map.removeLayer(markers[i]);
           }
+          marker = L.marker(lonlat);
+          markers.push(marker);
+          map.addLayer(marker);
+          map.panTo(lonlat);
+          map.setZoom(15);
         }
-        $('#search-result-0').toggleClass('active');
-        activeResult = '#search-result-0';
-      }
-    });
+      });
+
+    }
+    else {
+      $('#typeahead').val($_GET.query);
+      var query_string = '/search?query=' + $_GET.query;
+      $.ajax({
+        type: 'GET',
+        dataType: "json",
+        url: 'http://api-pelias-test.mapzen.com' + query_string,
+        success: function(geoJson) {
+          create_marker(geoJson.features[0]);
+          for (key in geoJson.features) {
+            if (geoJson.features.hasOwnProperty(key)) {
+              obj = geoJson.features[key];
+              searchResults.push(obj);
+              $('#search-results').append('<a href="#" class="list-group-item" id="'+'search-result-'+key+'"><h4 class="list-group-item-heading">'+obj.properties.title+'</h4><p class="list-group-item-text">'+obj.properties.description+'</p></a>');
+              $('#search-result-'+key).click({key: key}, function(event) {
+                var result = searchResults[event.data.key];
+                create_marker(result);
+                if (activeResult != null) {
+                  $(activeResult).toggleClass('active');
+                }
+                activeResult = '#search-result-'+event.data.key;
+                $('#search-result-'+event.data.key).toggleClass('active');
+              });
+            }
+          }
+          $('#search-result-0').toggleClass('active');
+          activeResult = '#search-result-0';
+        }
+      });
+    }
   }
 
   $('#typeahead').typeahead([{

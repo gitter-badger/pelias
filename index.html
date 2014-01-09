@@ -5,11 +5,11 @@
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap-tab.min.js"></script>
 <script src='//api.tiles.mapbox.com/mapbox.js/v1.6.0-beta0/mapbox.js'></script>
 <script src="http://twitter.github.io/typeahead.js/js/hogan-2.0.0.js"></script>
 <script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.js"></script>
-<script src="typeahead.js"></script>
-<script src="map.js"></script>
+<script src="scripts.js"></script>
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css" />
 <link href='//api.tiles.mapbox.com/mapbox.js/v1.6.0-beta0/mapbox.css' rel='stylesheet' />
@@ -29,7 +29,11 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4">
-      <div id="search-form">
+      <ul class="nav nav-tabs" id="tabs">
+        <li class="active"><a href="#" id="forward" onclick="showForward()">Forward Geocoder</a></li>
+        <li><a href="#" id="reverse" onclick="showReverse()">Reverse Geocoder</a></li>
+      </ul>
+      <div id="forward-form">
         <form class="form-inline" role="form">
           <div class="input-group">
             <input type="search" name="query" class="form-control" id="typeahead" placeholder="Search">
@@ -38,8 +42,31 @@
             </span>
           </div>
         </form>
+        <div class="list-group" id="search-results"></div>
       </div>
-      <div class="list-group" id="search-results"></div>
+      <div id="reverse-form">
+        <form class="form-inline" role="form">
+          <div class="row">
+            <div class="col-lg-5">
+              <div class="input-group">
+                <span class="input-group-addon">Lon</span>
+                <input type="text" name="lon" id="lon" class="form-control">
+              </div>
+            </div>
+            <div class="col-lg-5">
+              <div class="input-group">
+                <span class="input-group-addon">Lat</span>
+                <input type="text" name="lat" id="lat" class="form-control">
+              </div>
+            </div>
+            <div class="col-lg-2">
+              <input type="submit" class="btn btn-info" type="button" value="Go!" />
+            </div>
+          </div>
+          <input type="hidden" name="type" value="reverse">
+        </form>
+        <div class="list-group" id="geocoding-results"></div>
+      </div>
     </div>
     <div class="col-md-8">
       <div id="map"></div>
