@@ -49,8 +49,7 @@ function showReverse() {
   $('#reverse-form').show();
 }
 
-function getDescription(properties) {
-  var type = properties.type;
+function getDescription(type) {
   if (type=='poi' || type=='address' || type=='street') {
     return "OSM: " + type;
   }
@@ -87,7 +86,7 @@ $(function() {
         success: function(geoJson) {
           var lonlat = [$_GET.lon, $_GET.lat];
           $('#geocoding-results').append(['<a href="#" class="list-group-item"><h4 class="list-group-item-heading">',
-            geoJson.name+'</h4><p class="list-group-item-text">'+geoJson.level+'</p></a>'
+            geoJson.name+'</h4><p class="list-group-item-text">'+getDescription(geoJson.level)+'</p></a>'
           ].join(''));
           var lonlat = [$_GET.lat, $_GET.lon];
           for (i=0; i<markers.length; i++) {
@@ -116,7 +115,7 @@ $(function() {
               searchResults.push(obj);
               $('#search-results').append(['<a href="#" class="list-group-item" id="'+'search-result-'+key+'">',
                 '<h4 class="list-group-item-heading">'+obj.properties.name+'</h4><p class="list-group-item-text">',
-                obj.properties.type+'</p></a>'
+                getDescription(obj.properties.type)+'</p></a>'
               ].join(''));
               $('#search-result-'+key).click({key: key}, function(event) {
                 var result = searchResults[event.data.key];
@@ -147,7 +146,7 @@ $(function() {
             obj = geojsonResponse.features[key];
             arr.push({
               value: obj.properties.name,
-              desc: getDescription(obj.properties),
+              desc: getDescription(obj.properties.type),
               type: obj.properties.type,
               geoJson: obj
             });
@@ -166,7 +165,7 @@ $(function() {
     $('#search-results').empty();
     $('#search-results').append(['<a href="#" class="list-group-item">',
       '<h4 class="list-group-item-heading">'+datum.value+'</h4><p class="list-group-item-text">',
-      getDescription(datum.geoJson)+'</p></a>'
+      getDescription(datum.geoJson.properties.type)+'</p></a>'
     ].join(''));
     create_marker(datum.geoJson);
   });
