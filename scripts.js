@@ -23,18 +23,25 @@ function create_marker(obj) {
     map.removeLayer(markers[i]);
   }
   marker = L.marker(lonlat);
+  marker.bindPopup(getPopupText(obj));
   markers.push(marker);
   map.addLayer(marker);
   map.panTo(lonlat);
-  if (type=='address' || type=='poi') {
-    map.setZoom(17);
-  }
-  else if (type=='street') {
-    map.setZoom(15);
-  }
-  else {
-    map.setZoom(13);
-  }
+  marker.openPopup();
+}
+
+function getPopupText(obj) {
+  var text = [];
+  if (obj.properties.name != null) { text.push('<b>Name:</b> '+obj.properties.name) }
+  if (obj.properties.neighborhood_name != null) { text.push('<b>Neighborhood:</b> '+obj.properties.neighborhood_name) }
+  if (obj.properties.locality_name != null) { text.push('<b>Locality:</b> '+obj.properties.locality_name) }
+  if (obj.properties.local_admin_name != null) { text.push('<b>Local admin:</b> '+obj.properties.local_admin_name) }
+  if (obj.properties.admin2_name != null) { text.push('<b>Admin2:</b> '+obj.properties.admin2_name) }
+  if (obj.properties.admin1_name != null) { text.push('<b>Admin1:</b> '+obj.properties.admin1_name) }
+  if (obj.properties.admin1_abbr != null) { text.push('<b>Admin1 abbr:</b> '+obj.properties.admin1_abbr) }
+  if (obj.properties.country_name != null) { text.push('<b>Country:</b> '+obj.properties.country_name) }
+  if (obj.properties.country_code != null) { text.push('<b>Country code:</b> '+obj.properties.country_code) }
+  return '<p>' + text.join('<br/>') + '</p>';
 }
 
 function showForward() {
@@ -59,6 +66,21 @@ function getDescription(type) {
   else {
     return "Quattroshapes: " + type.replace('_', ' ');
   }
+}
+
+admin1_abbr: "NY"
+admin2_name: "Kings"
+local_admin_name: "Brooklyn"
+locality_name: "New York City"
+
+function getAdmin(obj) {
+  var admin = [];
+  if (obj.neighborhood_name!=null) { admin.push(obj.neighborhood_name) }
+  if (obj.local_admin_name!=null) { admin.push(obj.local_admin_name) }
+  else if (obj.locality_name!=null) { admin.push(obj.locality_name) }
+  else if (obj.admin2_name!=null) { admin.push(obj.admin2_name) }
+  if (obj.admin1_abbr!=null) { admin.push(obj.admin1_abbr) }
+  return admin.join(", ");
 }
 
 $(function() {
@@ -86,8 +108,10 @@ $(function() {
         url: 'http://api-pelias-test.mapzen.com' + query_string,
         success: function(geoJson) {
           var lonlat = [$_GET.lon, $_GET.lat];
+          var desc = getDescription(geoJson.level);
+          var admin = getAdmin(geoJson);
           $('#geocoding-results').append(['<a href="#" class="list-group-item"><h4 class="list-group-item-heading">',
-            geoJson.name+'</h4><p class="list-group-item-text">'+getDescription(geoJson.level)+'</p></a>'
+            geoJson.name+'</h4><p class="list-group-item-text">'+admin+'</p></a>'
           ].join(''));
           var lonlat = [$_GET.lat, $_GET.lon];
           for (i=0; i<markers.length; i++) {
@@ -97,7 +121,6 @@ $(function() {
           markers.push(marker);
           map.addLayer(marker);
           map.panTo(lonlat);
-          map.setZoom(15);
         }
       });
     }
@@ -114,9 +137,11 @@ $(function() {
             if (geoJson.features.hasOwnProperty(key)) {
               obj = geoJson.features[key];
               searchResults.push(obj);
+              var admin = getAdmin(obj.properties);
+              var desc = getDescription(obj.properties.type);
               $('#search-results').append(['<a href="#" class="list-group-item" id="'+'search-result-'+key+'">',
                 '<h4 class="list-group-item-heading">'+obj.properties.name+'</h4><p class="list-group-item-text">',
-                getDescription(obj.properties.type)+'</p></a>'
+                admin+'</p></a>'
               ].join(''));
               $('#search-result-'+key).click({key: key}, function(event) {
                 var result = searchResults[event.data.key];
