@@ -1,3 +1,4 @@
+// GOOGLE ANALYTICS
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -9,9 +10,15 @@ var map, activeResult;
 var markers = [];
 var searchResults = [];
 
+function setReverseCoords() {
+  var center = map.getCenter();
+  $('#lon').val(center.lng);
+  $('#lat').val(center.lat);
+}
+
 function create_marker(obj) {
   var lonlat = [obj.geometry.coordinates[1], obj.geometry.coordinates[0]]
-  var type = obj.properties.description;
+  var type = obj.properties.type;
   for (i=0; i<markers.length; i++) {
     map.removeLayer(markers[i]);
   }
@@ -42,8 +49,24 @@ function showReverse() {
   $('#reverse-form').show();
 }
 
+function getDescription(properties) {
+  var type = properties.type;
+  if (type=='poi' || type=='address' || type=='street') {
+    return "OSM: " + type;
+  }
+  else if (type == 'geoname') {
+    return "Geoname";
+  }
+  else {
+    return "Quattroshapes: " + type.replace('_', ' ');
+  }
+}
+
 $(function() {
-  map = L.mapbox.map('map', 'randyme.gajlngfe').setView([40.7722, -73.9349], 13);
+  // MAP SETUP
+  map = L.mapbox.map('map', 'randyme.gajlngfe').setView([40.73035, -73.98639], 13);
+  map.on('move', setReverseCoords);
+  // SEARCH SETUP
   if (location.search != '') {
     var $_GET = {};
     document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
@@ -62,7 +85,9 @@ $(function() {
         dataType: "json",
         url: 'http://api-pelias-test.mapzen.com' + query_string,
         success: function(geoJson) {
-          $('#geocoding-results').append('<a href="#" class="list-group-item"><h4 class="list-group-item-heading">'+geoJson.name+'</h4><p class="list-group-item-text">'+geoJson.level+'</p></a>');
+          $('#geocoding-results').append(['<a href="#" class="list-group-item"><h4 class="list-group-item-heading">',
+            geoJson.name+'</h4><p class="list-group-item-text">'+geoJson.level+'</p></a>'
+          ].join(''));
           var lonlat = [$_GET.lat, $_GET.lon];
           for (i=0; i<markers.length; i++) {
             map.removeLayer(markers[i]);
@@ -89,7 +114,10 @@ $(function() {
             if (geoJson.features.hasOwnProperty(key)) {
               obj = geoJson.features[key];
               searchResults.push(obj);
-              $('#search-results').append('<a href="#" class="list-group-item" id="'+'search-result-'+key+'"><h4 class="list-group-item-heading">'+obj.properties.title+'</h4><p class="list-group-item-text">'+obj.properties.description+'</p></a>');
+              $('#search-results').append(['<a href="#" class="list-group-item" id="'+'search-result-'+key+'">',
+                '<h4 class="list-group-item-heading">'+obj.properties.name+'</h4><p class="list-group-item-text">',
+                obj.properties.type+'</p></a>'
+              ].join(''));
               $('#search-result-'+key).click({key: key}, function(event) {
                 var result = searchResults[event.data.key];
                 create_marker(result);
@@ -107,11 +135,10 @@ $(function() {
       });
     }
   }
-
   $('#typeahead').typeahead([{
     name: 'suggestions',
     remote: {
-      url: 'http://api-pelias-test.mapzen.com/suggest?query=%QUERY',
+      url: 'http://api-pelias-test.mapzen.com/suggest?size=10&query=%QUERY',
       filter: function (geojsonResponse) {
         var arr = [];
         var features = geojsonResponse.features;
@@ -119,9 +146,10 @@ $(function() {
           if (geojsonResponse.features.hasOwnProperty(key)) {
             obj = geojsonResponse.features[key];
             arr.push({
-              value: obj.properties.title,
-              lonlat: obj.geometry.coordinates,
-              type: obj.properties.description
+              value: obj.properties.name,
+              desc: getDescription(obj.properties),
+              type: obj.properties.type,
+              geoJson: obj
             });
           }
         }
@@ -129,29 +157,22 @@ $(function() {
       }
     },
     template: [
-      '<p class="result-type">{{type}}</p>',
       '<p class="result-text">{{value}}</p>',
-      '<p class="result-latlng">{{lonlat}}</p>'
+      '<p class="result-desc">{{desc}}</p>'
     ].join(''),
+    limit: 10,
     engine: Hogan
   }]).bind('typeahead:selected', function (obj, datum) {
-    var lonlat = [datum.lonlat[1], datum.lonlat[0]]
-    for (i=0; i<markers.length; i++) {
-      map.removeLayer(markers[i]);
-    }
-    marker = L.marker(lonlat);
-    markers.push(marker);
-    map.addLayer(marker);
-    map.panTo(lonlat);
-    map.panTo(lonlat);
-    if (datum.type=='address' || datum.type=='poi') {
-      map.setZoom(17);
-    }
-    else if (datum.type=='street') {
-      map.setZoom(15);
-    }
-    else {
-      map.setZoom(13);
-    }
+    $('#search-results').empty();
+    $('#search-results').append(['<a href="#" class="list-group-item">',
+      '<h4 class="list-group-item-heading">'+datum.value+'</h4><p class="list-group-item-text">',
+      getDescription(datum.geoJson)+'</p></a>'
+    ].join(''));
+    create_marker(datum.geoJson);
   });
+
+  // DEFAULT GEOCODING VALUES
+  if ($('#lon').val()=='' && $('#lat').val()=='') {
+    setReverseCoords();
+  }
 });
