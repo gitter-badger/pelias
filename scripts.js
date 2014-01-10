@@ -85,7 +85,7 @@ function getAdmin(obj) {
 
 $(function() {
   // MAP SETUP
-  map = L.mapbox.map('map', 'randyme.gajlngfe').setView([40.73035,-73.98639], 13);
+  map = L.mapbox.map('map', 'randyme.gajlngfe').setView([40.73035,-73.98639], 15);
   map.on('move', setReverseCoords);
 
   // SEARCH SETUP
