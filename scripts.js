@@ -62,18 +62,7 @@ function getDescription(type) {
 }
 
 $(function() {
-  // CURRENT LOCATION
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      function(position) {
-        map.setView([position.coords.latitude, position.coords.longitude])
-      },
-      function(msg) {
-        console.log(msg);
-      }
-    );
-  }
-
+  // MAP SETUP
   map = L.mapbox.map('map', 'randyme.gajlngfe').setView([40.73035,-73.98639], 13);
   map.on('move', setReverseCoords);
 
@@ -144,6 +133,19 @@ $(function() {
           activeResult = '#search-result-0';
         }
       });
+    }
+  }
+  else {
+    // CURRENT LOCATION
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          map.setView([position.coords.latitude, position.coords.longitude])
+        },
+        function(msg) {
+          console.log(msg);
+        }
+      );
     }
   }
   $('#typeahead').typeahead([{
