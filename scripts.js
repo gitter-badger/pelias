@@ -6,7 +6,7 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', 'UA-47035811-1', 'mapzen.com');
 ga('send', 'pageview');
 
-var map, activeResult;
+var map, activeResult, browser_lat, browser_lng;
 var markers = [];
 var searchResults = [];
 
@@ -62,9 +62,21 @@ function getDescription(type) {
 }
 
 $(function() {
-  // MAP SETUP
-  map = L.mapbox.map('map', 'randyme.gajlngfe').setView([40.73035, -73.98639], 13);
+  // CURRENT LOCATION
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        map.setView([position.coords.latitude, position.coords.longitude])
+      },
+      function(msg) {
+        console.log(msg);
+      }
+    );
+  }
+
+  map = L.mapbox.map('map', 'randyme.gajlngfe').setView([40.73035,-73.98639], 13);
   map.on('move', setReverseCoords);
+
   // SEARCH SETUP
   if (location.search != '') {
     var $_GET = {};
