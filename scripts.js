@@ -85,6 +85,7 @@ $(function() {
         dataType: "json",
         url: 'http://api-pelias-test.mapzen.com' + query_string,
         success: function(geoJson) {
+          var lonlat = [$_GET.lon, $_GET.lat];
           $('#geocoding-results').append(['<a href="#" class="list-group-item"><h4 class="list-group-item-heading">',
             geoJson.name+'</h4><p class="list-group-item-text">'+geoJson.level+'</p></a>'
           ].join(''));
@@ -99,7 +100,6 @@ $(function() {
           map.setZoom(15);
         }
       });
-
     }
     else {
       $('#typeahead').val($_GET.query);
