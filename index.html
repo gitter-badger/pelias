@@ -40,6 +40,14 @@
               <input type="submit" class="btn btn-info" type="button" value="Go!" />
             </span>
           </div>
+          <label class="checkbox-inline">
+            <input type="checkbox" name="sort" id="sort"> Sort from center
+            <input type="hidden" name="sort_ll" id="sort_ll">
+          </label>
+          <label class="checkbox-inline">
+            <input type="checkbox" name="filter" id="filter"> Map view only
+            <input type="hidden" name="filter_bb" id="filter_bb">
+          </label>
         </form>
         <div class="list-group" id="search-results"></div>
       </div>

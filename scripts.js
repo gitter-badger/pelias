@@ -10,14 +10,19 @@ var map, activeResult, browser_lat, browser_lng;
 var markers = [];
 var searchResults = [];
 
-function setReverseCoords() {
+function setCoords() {
   var center = map.getCenter();
   $('#lon').val(center.lng);
   $('#lat').val(center.lat);
+  $('#sort_ll').val(center.lng + ',' + center.lat);
+  var bounds = map.getBounds();
+  var ne = bounds._northEast.lng+','+bounds._northEast.lat;
+  var sw = bounds._southWest.lng+','+bounds._southWest.lat;
+  $('#filter_bb').val(ne+','+sw);
 }
 
 function create_marker(obj) {
-  var lonlat = [obj.geometry.coordinates[1], obj.geometry.coordinates[0]]
+  var lonlat = [obj.geometry.coordinates[1], obj.geometry.coordinates[0]];
   var type = obj.properties.type;
   for (i=0; i<markers.length; i++) {
     map.removeLayer(markers[i]);
@@ -68,11 +73,6 @@ function getDescription(type) {
   }
 }
 
-admin1_abbr: "NY"
-admin2_name: "Kings"
-local_admin_name: "Brooklyn"
-locality_name: "New York City"
-
 function getAdmin(obj) {
   var admin = [];
   if (obj.neighborhood_name!=null) { admin.push(obj.neighborhood_name) }
@@ -86,7 +86,7 @@ function getAdmin(obj) {
 $(function() {
   // MAP SETUP
   map = L.mapbox.map('map', 'randyme.gajlngfe').setView([40.73035,-73.98639], 15);
-  map.on('move', setReverseCoords);
+  map.on('move', setCoords);
 
   // SEARCH SETUP
   if (location.search != '') {
@@ -127,6 +127,12 @@ $(function() {
     else {
       $('#typeahead').val($_GET.query);
       var query_string = '/search?query=' + $_GET.query;
+      if ($_GET.sort=='on') {
+        query_string += '&center='+$_GET.sort_ll;
+      }
+      if ($_GET.filter=='on') {
+        query_string += '&viewbox='+$_GET.filter_bb;
+      }
       $.ajax({
         type: 'GET',
         dataType: "json",
@@ -209,8 +215,14 @@ $(function() {
     create_marker(datum.geoJson);
   });
 
-  // DEFAULT GEOCODING VALUES
+  // DEFAULT VALUES
   if ($('#lon').val()=='' && $('#lat').val()=='') {
-    setReverseCoords();
+    setCoords();
+  }
+  if ($_GET!=null && $_GET.sort=='on') {
+    $('#sort').prop('checked', true);
+  }
+  if ($_GET!=null && $_GET.filter=='on') {
+    $('#filter').prop('checked', true);
   }
 });
