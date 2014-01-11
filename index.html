@@ -18,7 +18,7 @@
 <body>
 <nav class="navbar navbar-default" role="navigation">
   <div class="navbar-header">
-    <a class="navbar-brand" href="#">Pelias Demo</a>
+    <a class="navbar-brand" href="/">Pelias Demo</a>
   </div>
   <ul class="nav navbar-nav">
     <li><a href="https://github.com/mapzen/pelias">Github</a></li>
@@ -40,6 +40,12 @@
               <input type="submit" class="btn btn-info" type="button" value="Go!" />
             </span>
           </div>
+          <label class="checkbox-inline">
+            <input type="checkbox" value="sort"> Sort from center
+          </label>
+          <label class="checkbox-inline">
+            <input type="checkbox" value="filter"> Map view only
+          </label>
         </form>
         <div class="list-group" id="search-results"></div>
       </div>
