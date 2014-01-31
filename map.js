@@ -51,7 +51,7 @@ $(function() {
     $.ajax({
       type: 'GET',
       dataType: "json",
-      url: 'http://api-pelias-test.mapzen.com' + query_string,
+      url: 'http://pelias.test.mapzen.com' + query_string,
       success: function(geoJson) {
         create_marker(geoJson.features[0]);
         for (key in geoJson.features) {
@@ -79,7 +79,7 @@ $(function() {
   $('#typeahead').typeahead([{
     name: 'suggestions',
     remote: {
-      url: 'http://api-pelias-test.mapzen.com/suggest?query=%QUERY',
+      url: 'http://pelias.test.mapzen.com/suggest?query=%QUERY',
       filter: function (geojsonResponse) {
         var arr = [];
         var features = geojsonResponse.features;
