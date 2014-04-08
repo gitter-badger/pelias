@@ -21,6 +21,8 @@ module Pelias
         suggest = Suggestion.send :"rebuild_suggestions_for_#{entry['location_type']}", Hashie::Mash.new(entry)
         entry['suggest'] = suggest
         denied = ['boundaries', 'suggest', 'refs']
+        entry['suggest'][:input].compact!
+        entry['suggest'][:input].uniq!
         entry['suggest']['payload'] = entry.reject { |k, v| denied.include?(k) }
       end
     end
@@ -46,20 +48,26 @@ module Pelias
       shape_types.each do |type|
 
         loc = "POINT(#{entry['center_point'][0]} #{entry['center_point'][1]})"
-        query = "SELECT gid FROM qs.qs_#{type} WHERE ST_Contains(geom, ST_GeometryFromText('#{loc}'))";
+        query = "SELECT gid FROM qs_#{type} WHERE ST_Contains(geom, ST_GeometryFromText('#{loc}'))";
         result = Pelias::DB[query].first
 
         # Copy down data from the found record
         if result
 
-          record = Pelias::ES_CLIENT.get(id: "qs:#{type}:#{result[:gid]}", type: 'location', index: Pelias::INDEX)
-          source = record['_source']
+          begin
+            record = Pelias::ES_CLIENT.get(id: "qs:#{type}:#{result[:gid]}", type: 'location', index: Pelias::INDEX)
+            source = record['_source']
 
-          entry['refs'] ||= {}
-          entry['refs'][type] = record['_id']
-          entry["#{type}_name"] = source['name']
-          entry["#{type}_abbr"] = source['abbr']
-          entry["#{type}_alternate_names"] = source['alternate_names']
+            entry['refs'] ||= {}
+            entry['refs'][type] = record['_id']
+            entry["#{type}_name"] = source['name']
+            entry["#{type}_abbr"] = source['abbr']
+            entry["#{type}_alternate_names"] = source['alternate_names']
+          rescue
+            Pelias::QuattroIndexer.new.perform type, result[:gid]
+            Pelias::ES_CLIENT.indices.refresh(index: Pelias::INDEX)
+            retry
+          end
 
         end
 
