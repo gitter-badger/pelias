@@ -3,7 +3,9 @@ var fs = require('fs'),
     request = require('request'),
     unzip = require('unzip'),
     csv = require('csv'),
-    esclient = require('../esclient');
+    esclient = require('../esclient'),
+    admin1_data = require('../data/geonames/admin1.json'),
+    admin2_data = require('../data/geonames/admin2.json');
 
 var columns = [
   '_id','name','asciiname','alternatenames','latitude','longitude','feature_class',
@@ -28,26 +30,53 @@ source
         })
         .transform(function (data) {
 
-          // geoname type
           esclient.stream.write(JSON.stringify({
             _index: 'pelias', _type: 'geoname', _id: data._id,
             data: {
-              center_point: { lat: data.latitude, lon: data.longitude }
-            }
-          });
+              name: data.name,
+              alternate_names: alternate_names(data),
+              country_code: data.country_code,
+              admin1_code: data.admin1_code,
+              admin1_name: admin1_name(data),
+              admin2_code: data.admin2_code,
+              admin2_name: admin2_name(data),
+              population: data.population,
+              center_point: { lat: data.latitude, lon: data.longitude },
+              suggest: {
+                input: data.name,
+                output: data.name,
+                payload: {
+                                
+                }
 
-          // admin0 type
-          esclient.stream.write(JSON.stringify({
-            _index: 'pelias', _type: 'admin0', _id: '??????',
-            data: {
-              gn_id: data._id,
-              woe_id: '??????',
-              center_point: { lat: '??????', lon: '??????' }
-            }
-          });
+              }
 
-          // etc...
+            }
+
+          }))
 
         })
-    )
-  });
+
+      )
+
+    });
+
+function admin1_name(data) {
+  var admin1_entry = admin1_data[data.country_code+'.'+data.admin1_code];
+  if (admin1_entry != null) {
+    return admin1_entry['name'];
+  }
+}
+
+function admin2_name(data) {
+  var admin2_entry = admin2_data[data.country_code+'.'+data.admin1_code+'.'+data.admin2_code]
+  if (admin2_entry != null) {
+    return admin2_entry['name'];
+  }
+}
+
+function alternate_names(data) {
+  if (data.alternatenames != '' && data.alternatenames != null) {
+    return data.alternatenames.split(',');
+  }
+}
