@@ -6,8 +6,8 @@ program
   .version('0.0.0')
   .usage('[options]')
   .option('-c, --countrycodes', 'list all country datasets available for download')
-  .option('-i, --import [code]', 'import geoname data for [country code] in to Pelias')
-  .option('-d, --download [code]', 'locally cache data from geonames.org for [country code]')
+  .option('-i, --import [ISO]', 'import geoname data for [ISO country code] in to Pelias')
+  .option('-d, --download [ISO]', 'locally cache data from geonames.org for [ISO country code]')
   .option('-m, --meta', 'download & update geonames metadata files')
   .parse(process.argv);
 

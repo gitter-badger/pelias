@@ -2,7 +2,7 @@
 var Table = require('cli-table'),
     countryInfo = require('../metadata/countryInfo');
 
-var columns = [ 'ISO', 'Country', 'Capital', 'Continent', 'Languages', 'geonameid' ];
+var columns = [ 'ISO', 'Country', 'Capital', 'Continent', 'geonameid' ];
 
 module.exports = function(){
   
