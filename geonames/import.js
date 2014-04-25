@@ -4,8 +4,8 @@ var fs = require('fs'),
     unzip = require('unzip'),
     csv = require('csv'),
     esclient = require('../esclient'),
-    admin1_data = require('../data/geonames/admin1.json'),
-    admin2_data = require('../data/geonames/admin2.json');
+    admin1_data = require('../geonames/data/admin1.json'),
+    admin2_data = require('../geonames/data/admin2.json');
 
 var columns = [
   '_id','name','asciiname','alternatenames','latitude','longitude','feature_class',
@@ -13,8 +13,8 @@ var columns = [
   'admin4_code', 'population','elevation','dem','timezone','modification_date'
 ];
 
-var source = fs.existsSync('data/geonames/allCountries.zip')
-  ? fs.createReadStream('data/geonames/allCountries.zip')
+var source = fs.existsSync('geonames/data/allCountries.zip')
+  ? fs.createReadStream('geonames/data/allCountries.zip')
   : request.get('http://download.geonames.org/export/dump/allCountries.zip');
 
 source
@@ -23,7 +23,7 @@ source
     entry.pipe(
       csv()
         .from.options({
-          columns: columns,
+          // columns: columns,
           delimiter: '\t',
           quote: null,
           trim: true
