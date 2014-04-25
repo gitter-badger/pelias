@@ -24,27 +24,25 @@ module.exports = function (filename) {
       entry.pipe(
         geonames.parser({ columns: columns }, function( data ) {
 
-          esclient.stream.write(
-            JSON.stringify({
-              _index: 'pelias', _type: 'geoname', _id: data._id,
-              data: {
-                name: data.name,
-                alternate_names: alternate_names(data),
-                country_code: data.country_code,
-                admin1_code: data.admin1_code,
-                admin1_name: admin1_name(data),
-                admin2_code: data.admin2_code,
-                admin2_name: admin2_name(data),
-                population: data.population,
-                center_point: { lat: data.latitude, lon: data.longitude },
-                suggest: {
-                  input: data.name,
-                  output: data.name,
-                  payload: {}
-                }
+          esclient.stream.write({
+            _index: 'pelias', _type: 'geoname', _id: data._id,
+            data: {
+              name: data.name,
+              alternate_names: alternate_names(data),
+              country_code: data.country_code,
+              admin1_code: data.admin1_code,
+              admin1_name: admin1_name(data),
+              admin2_code: data.admin2_code,
+              admin2_name: admin2_name(data),
+              population: data.population,
+              center_point: { lat: data.latitude, lon: data.longitude },
+              suggest: {
+                input: data.name,
+                output: data.name,
+                payload: {}
               }
-            })
-          );
+            }
+          });
 
         })
       )

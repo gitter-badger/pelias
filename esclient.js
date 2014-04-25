@@ -1,7 +1,5 @@
 
 // @todo: this file requires a clean-up
-// @todo: refactor to allow write() of object instead of strings to avoid
-//  having to json encode/decode every object every line
 // @todo: refactor write() calls to accept all batch actions instead of just 'index'
 
 var elasticsearch = require('elasticsearch'),
@@ -36,7 +34,7 @@ client.errorHandler = function(cb) {
 }
 
 // streaming interface
-client.stream = new Writable();
+client.stream = new Writable({ objectMode: true });
 
 var buff = [];
 var bufferMaxSize = 1000;
@@ -62,7 +60,8 @@ var flush = function(cb)
 
 client.stream._write = function (chunk, enc, next)
 {
-  var record = JSON.parse( chunk.toString() );
+  // stream accepts objects or json encoded strings
+  var record = ( 'object' === typeof chunk ) ? chunk : JSON.parse( chunk.toString() );
   
   buff.push({ index: {
     _index: record._index,
