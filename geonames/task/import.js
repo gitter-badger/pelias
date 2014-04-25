@@ -1,4 +1,6 @@
 
+// @todo: currently only imports first file it finds in the .zip, needs to be smarter
+
 var fs = require('fs'),
     util = require('util'),
     request = require('request'),
@@ -45,8 +47,8 @@ module.exports = function (filename) {
           );
 
         })
-      );
-    });
+      )
+    })
 }
 
 function selectSource(filename) {
