@@ -1,7 +1,7 @@
 
 ## pelias-geonames
 
-`pelias-geonames `comes with a command-line tool to make it easier to download/parse and import country data in to Pelias.
+`pelias-geonames` comes with a command-line tool to make it easier to download/parse and import country data in to Pelias.
 
 ```bash
 peter@manta:/var/www/pelias$ ./geonames/bin/pelias-geonames
