@@ -64,21 +64,25 @@ function selectSource(filename) {
 }
 
 function admin1_name(data) {
-  var admin1_entry = admin1_data[data.country_code+'.'+data.admin1_code];
-  if (admin1_entry != null) {
-    return admin1_entry['name'];
+  if( data.country_code && data.admin1_code ){
+    var admin1_entry = admin1_data[ data.country_code.concat( data.admin1_code ) ];
+    if (admin1_entry && admin1_entry.name) {
+      return admin1_entry.name;
+    }
   }
 }
 
 function admin2_name(data) {
-  var admin2_entry = admin2_data[data.country_code+'.'+data.admin1_code+'.'+data.admin2_code]
-  if (admin2_entry != null) {
-    return admin2_entry['name'];
+  if( data.country_code && data.admin1_code && data.admin2_code ){
+    var admin2_entry = admin2_data[ data.country_code.concat( data.admin1_code, data.admin2_code ) ]
+    if (admin2_entry && admin2_entry.name) {
+      return admin2_entry.name;
+    }
   }
 }
 
 function alternate_names(data) {
-  if (data.alternatenames != '' && data.alternatenames != null) {
+  if ('string' == typeof data.alternatenames) {
     return data.alternatenames.split(',');
   }
 }
