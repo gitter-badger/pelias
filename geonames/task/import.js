@@ -1,11 +1,12 @@
 
 var fs = require('fs'),
+    util = require('util'),
     request = require('request'),
     unzip = require('unzip'),
     geonames = require('../geonames'),
-    esclient = require('../esclient'),
-    admin1_data = require('../geonames/data/admin1.json'),
-    admin2_data = require('../geonames/data/admin2.json');
+    esclient = require('../../esclient'),
+    admin1_data = require('../metadata/admin1CodesASCII'),
+    admin2_data = require('../metadata/admin2Codes');
 
 var columns = [
   '_id','name','asciiname','alternatenames','latitude','longitude','feature_class',
@@ -13,17 +14,13 @@ var columns = [
   'admin4_code', 'population','elevation','dem','timezone','modification_date'
 ];
 
-module.exports = function (country_code) {
+module.exports = function (filename) {
 
-  var source = fs.existsSync('geonames/data/allCountries.zip')
-    ? fs.createReadStream('geonames/data/allCountries.zip')
-    : request.get('http://download.geonames.org/export/dump/allCountries.zip');
-
-  source
+  selectSource(filename)
     .pipe(unzip.Parse())
     .on('entry', function (entry) {
       entry.pipe(
-        geonames.parser({ columns: columns }, function( row, index ) {
+        geonames.parser({ columns: columns }, function( data ) {
 
           esclient.stream.write(
             JSON.stringify({
@@ -50,7 +47,21 @@ module.exports = function (country_code) {
         })
       );
     });
-});
+}
+
+function selectSource(filename) {
+
+  var localFileName = util.format( 'geonames/data/%s.zip', filename );
+  var remoteFilePath = util.format( 'http://download.geonames.org/export/dump/%s.zip', filename );
+
+  if( fs.existsSync( localFileName ) ){
+    console.log( 'reading datafile from disk at:', localFileName );
+    return fs.createReadStream( localFileName );
+  } else {
+    console.log( 'streaming datafile from:', remoteFilePath );
+    return request.get( remoteFilePath );
+  }
+}
 
 function admin1_name(data) {
   var admin1_entry = admin1_data[data.country_code+'.'+data.admin1_code];
