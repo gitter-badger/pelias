@@ -2,7 +2,7 @@
 var fs = require('fs'),
     request = require('request'),
     unzip = require('unzip'),
-    csv = require('csv'),
+    geonames = require('../geonames'),
     esclient = require('../esclient'),
     admin1_data = require('../geonames/data/admin1.json'),
     admin2_data = require('../geonames/data/admin2.json');
@@ -23,16 +23,10 @@ module.exports = function (country_code) {
     .pipe(unzip.Parse())
     .on('entry', function (entry) {
       entry.pipe(
-        csv()
-          .from.options({
-            columns: columns,
-            delimiter: '\t',
-            quote: null,
-            trim: true
-          })
-          .transform(function (data) {
+        geonames.parser({ columns: columns }, function( row, index ) {
 
-            esclient.stream.write(JSON.stringify({
+          esclient.stream.write(
+            JSON.stringify({
               _index: 'pelias', _type: 'geoname', _id: data._id,
               data: {
                 name: data.name,
@@ -47,21 +41,15 @@ module.exports = function (country_code) {
                 suggest: {
                   input: data.name,
                   output: data.name,
-                  payload: {
-                                  
-                  }
-
+                  payload: {}
                 }
-
               }
+            })
+          );
 
-            }))
-
-          })
-
-        )
-
-      });
+        })
+      );
+    });
 });
 
 function admin1_name(data) {

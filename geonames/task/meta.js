@@ -10,7 +10,7 @@ var fs = require('fs'),
     util = require('util'),
     request = require('request'),
     JSONStream = require('JSONStream'),
-    csv = require('csv'),
+    geonames = require('../geonames'),
     pad = require('pad'),
     progress = require('../../util/streamProgressBar'),
     metafiles = require('./metafiles');
@@ -42,22 +42,13 @@ var download = function( filename )
 
   // Parse tsv and write to jsonify stream
   download.pipe(
-    csv()
-      .from.options({
-        columns: fileoptions.columns,
-        delimiter: '\t',
-        comment: '#',
-        quote: null,
-        trim: true
-      })
-      .transform( function( row, index ) {
-        if( index === 0 && fileoptions.headerLine ) return; // Skip HeaderLine
-        var jsonIndex = row[ fileoptions.index ].replace( /[^\w]/g, '' );
-        jsonifyStream.write( [ jsonIndex, row ] );
-      })
-      .on( 'end', function(){
-        jsonifyStream.end();
-      })
+    geonames.parser({ columns: fileoptions.columns }, function( row, index ) {
+      if( index === 0 && fileoptions.headerLine ) return; // Skip HeaderLine
+      var jsonIndex = row[ fileoptions.index ].replace( /[^\w]/g, '' );
+      jsonifyStream.write( [ jsonIndex, row ] );
+    }).on( 'end', function(){
+      jsonifyStream.end();
+    })
   )
 }
 
