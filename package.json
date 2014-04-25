@@ -39,6 +39,7 @@
     "mkdirp": "^0.4.0",
     "commander-plus": "0.0.6",
     "pad": "0.0.4",
-    "JSONStream": "^0.7.2"
+    "JSONStream": "^0.7.2",
+    "cli-table": "^0.3.0"
   }
 }

@@ -5,7 +5,7 @@ var program = require('commander-plus');
 program
   .version('0.0.0')
   .usage('[options]')
-  .option('-c, --country-codes', 'list all country datasets available for download')
+  .option('-c, --countrycodes', 'list all country datasets available for download')
   .option('-i, --import [code]', 'import geoname data for [country code] in to Pelias')
   .option('-d, --download [code]', 'locally cache data from geonames.org for [country code]')
   .option('-m, --meta', 'download & update geonames metadata files')
@@ -18,7 +18,12 @@ program
 //   });
 // }
 
-if( program.meta ){
+if( program.countrycodes ){
+  var task = require('../task/countrycodes');
+  task();
+}
+
+else if( program.meta ){
   var task = require('../task/meta');
   task();
 }
