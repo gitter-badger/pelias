@@ -22,7 +22,7 @@ peter@manta:/var/www/pelias$ ./geonames/bin/pelias-geonames
 
 For development it's fastest and easiest to just use the data from your local region.
 
-Eg. Do just load data specific to `New Zealand` you can run:
+Eg. To just load data specific to `New Zealand` you can run:
 
 ```bash
 peter@manta:/var/www/pelias$ ./geonames/bin/pelias-geonames -i nz
@@ -35,6 +35,9 @@ You can download and use a cached copy of the geonames data for imports instead:
 peter@manta:/var/www/pelias$ ./geonames/bin/pelias-geonames -d nz
 downloading datafile from: http://download.geonames.org/export/dump/NZ.zip
  geonames/data/NZ.zip           [===================] 100% 0.0s
+
+peter@manta:/var/www/pelias$ ./geonames/bin/pelias-geonames -i nz
+reading datafile from disk at: geonames/data/NZ.zip
 ```
 
 For a `production` database where you need the entire world, use:
