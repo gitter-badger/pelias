@@ -36,7 +36,7 @@ var download = function( filename )
   }
 
   // Write valid json to disk
-  var jsonifyStream = JSONStream.stringifyObject( '{\n', ',\n', '\n}\n' );
+  var jsonifyStream = JSONStream.stringifyObject( '{\n', ',\n', '\n}' );
   var jsWriteStream = fs.createWriteStream( destination.replace( '.txt', '.json' ) );
   jsonifyStream.pipe( jsWriteStream );
 
@@ -54,6 +54,9 @@ var download = function( filename )
         if( index === 0 && fileoptions.headerLine ) return; // Skip HeaderLine
         var jsonIndex = row[ fileoptions.index ].replace( /[^\w]/g, '' );
         jsonifyStream.write( [ jsonIndex, row ] );
+      })
+      .on( 'end', function(){
+        jsonifyStream.end();
       })
   )
 }

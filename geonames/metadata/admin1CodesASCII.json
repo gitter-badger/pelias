@@ -356,7 +356,7 @@
 "BQSB":{"code":"BQ.SB","name":"Saba","asciiname":"Saba","geonameId":"7610358"},
 "BQSE":{"code":"BQ.SE","name":"Sint Eustatius","asciiname":"Sint Eustatius","geonameId":"7610359"},
 "BR22":{"code":"BR.22","name":"Rio Grande do Norte","asciiname":"Rio Grande do Norte","geonameId":"3390290"},
-"BR20":{"code":"BR.20","name":"Piau��","asciiname":"Piaui","geonameId":"3392213"},
+"BR20":{"code":"BR.20","name":"Piauí","asciiname":"Piaui","geonameId":"3392213"},
 "BR30":{"code":"BR.30","name":"Pernambuco","asciiname":"Pernambuco","geonameId":"3392268"},
 "BR17":{"code":"BR.17","name":"Paraíba","asciiname":"Paraiba","geonameId":"3393098"},
 "BR16":{"code":"BR.16","name":"Pará","asciiname":"Para","geonameId":"3393129"},
@@ -3464,7 +3464,7 @@
 "TR75":{"code":"TR.75","name":"Aksaray","asciiname":"Aksaray","geonameId":"443185"},
 "TR76":{"code":"TR.76","name":"Batman","asciiname":"Batman","geonameId":"443186"},
 "TR78":{"code":"TR.78","name":"Karaman","asciiname":"Karaman","geonameId":"443187"},
-"TR79":{"code":"TR.79","name":"K��rıkkale","asciiname":"Kirikkale","geonameId":"443188"},
+"TR79":{"code":"TR.79","name":"Kırıkkale","asciiname":"Kirikkale","geonameId":"443188"},
 "TR80":{"code":"TR.80","name":"Şırnak","asciiname":"Sirnak","geonameId":"443189"},
 "TR90":{"code":"TR.90","name":"Kilis","asciiname":"Kilis","geonameId":"443213"},
 "TR85":{"code":"TR.85","name":"Zonguldak","asciiname":"Zonguldak","geonameId":"737021"},
@@ -3899,3 +3899,4 @@
 "ZW01":{"code":"ZW.01","name":"Manicaland","asciiname":"Manicaland","geonameId":"887358"},
 "ZW09":{"code":"ZW.09","name":"Bulawayo","asciiname":"Bulawayo","geonameId":"1105843"},
 "ZW10":{"code":"ZW.10","name":"Harare","asciiname":"Harare","geonameId":"1105844"}
+}
