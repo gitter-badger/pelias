@@ -1,5 +1,8 @@
 
 // @todo: this file requires a clean-up
+// @todo: refactor to allow write() of object instead of strings to avoid
+//  having to json encode/decode every object every line
+// @todo: refactor write() calls to accept all batch actions instead of just 'index'
 
 var elasticsearch = require('elasticsearch'),
     Writable = require('stream').Writable;
