@@ -41,18 +41,23 @@ client.stream = new Writable();
 var buff = [];
 var bufferMaxSize = 1000;
 var insertedCount = 0;
+var lastFlush = new Date().getTime();
 
 // Flush buffer to ES
 var flush = function(cb)
 {
+  if( !buff.length ) return;
+
   console.log( 'writing %s records to ES', ( buff.length / 2 ), 'of', insertedCount );
   
   client.bulk({ body: buff }, function( err, resp ){
     // console.log( err, resp );
     insertedCount += ( buff.length / 2 );
     buff = []; // Reset buffer
-    cb();
+    if( cb ) cb();
   });
+
+  lastFlush = new Date().getTime()
 }
 
 client.stream._write = function (chunk, enc, next)
@@ -75,6 +80,16 @@ client.stream._write = function (chunk, enc, next)
 
 client.stream.on( 'error', console.log.bind(console) );
 
+// @todo: flush a half full buffer instead of waiting for more data to come in.
+// This is currently a massive hack to make sure the buffer is flushed in 
+// a timely manner. It needs to go away with the next refactor.
+setInterval( function(){
+  if(( new Date().getTime()-1000 ) > lastFlush ){
+    flush();
+  }
+}, 1000 );
+
+// try to flush when the stream ends
 client.stream.on( 'end', function(){
   flush( function(){
     console.log( 'finished writing data to ES' );
