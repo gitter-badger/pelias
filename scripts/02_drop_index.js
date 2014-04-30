@@ -1,5 +1,5 @@
 
-var client = require('../esclient'),
+var client = require('pelias-esclient'),
     schema = require('../config/schema.json');
 
 var debug = client.errorHandler( console.log );

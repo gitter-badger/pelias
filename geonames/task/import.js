@@ -6,7 +6,7 @@ var fs = require('fs'),
     request = require('request'),
     unzip = require('unzip'),
     geonames = require('../geonames'),
-    esclient = require('../../esclient'),
+    esclient = require('pelias-esclient'),
     admin1_data = require('../metadata/admin1CodesASCII'),
     admin2_data = require('../metadata/admin2Codes');
 

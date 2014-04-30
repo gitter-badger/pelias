@@ -14,6 +14,19 @@
 
       }
 
+    },
+
+    "index": {
+      "refresh_interval": "-1",
+      "number_of_replicas": "0",
+      "number_of_shards": "8",
+      "index.index_concurrency": "32",
+      "index.merge.policy.merge_factor": "30",
+      "index.translog.flush_threshold_size": "1000mb",
+      "index.translog.flush_threshold_ops": "50000",
+      "index.translog.flush_threshold_period": "120m",
+      "index.translog.interval": "10m",
+      "indices.memory.index_buffer_size": "50%"
     }
 
   },
@@ -161,7 +174,9 @@
         "woe_id": { "type": "long", "index": "not_analyzed" },
 
         "boundaries": {
-          "type": "geo_shape"
+          "type": "geo_shape",
+          "tree": "quadtree",
+          "tree_levels": "17"
         },
 
         "center_point": {
@@ -189,7 +204,9 @@
         "woe_id": { "type": "long", "index": "not_analyzed" },
 
         "boundaries": {
-          "type": "geo_shape"
+          "type": "geo_shape",
+          "tree": "quadtree",
+          "tree_levels": "17"
         },
 
         "center_point": {
