@@ -4,4 +4,7 @@ var client = require('pelias-esclient'),
 
 var debug = client.errorHandler( console.log );
 
-client.indices.delete( { index: 'pelias' }, debug );
+client.indices.delete( { index: 'pelias' }, function( err, res ){
+  debug( err, res );
+  process.exit(0);
+});
