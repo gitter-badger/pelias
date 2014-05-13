@@ -62,7 +62,9 @@
         "woe_id": { "type": "long", "index": "not_analyzed" },
 
         "boundaries": {
-          "type": "geo_shape"
+          "type": "geo_shape",
+          "tree": "quadtree",
+          "tree_levels": "17"
         },
 
         "center_point": {
@@ -90,7 +92,9 @@
         "woe_id": { "type": "long", "index": "not_analyzed" },
 
         "boundaries": {
-          "type": "geo_shape"
+          "type": "geo_shape",
+          "tree": "quadtree",
+          "tree_levels": "17"
         },
 
         "center_point": {
@@ -118,7 +122,9 @@
         "woe_id": { "type": "long", "index": "not_analyzed" },
 
         "boundaries": {
-          "type": "geo_shape"
+          "type": "geo_shape",
+          "tree": "quadtree",
+          "tree_levels": "17"
         },
 
         "center_point": {
@@ -146,7 +152,9 @@
         "woe_id": { "type": "long", "index": "not_analyzed" },
 
         "boundaries": {
-          "type": "geo_shape"
+          "type": "geo_shape",
+          "tree": "quadtree",
+          "tree_levels": "17"
         },
 
         "center_point": {
