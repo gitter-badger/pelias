@@ -26,9 +26,54 @@
 
   "mappings": {
 
+    "osmnode": {
+
+      "properties": {
+
+        "name": {
+          "type" : "object",
+          "dynamic" : false
+        },
+
+        "admin0": { "type": "string" },
+        "admin1": { "type": "string" },
+        "admin2": { "type": "string" },
+
+        "center_point": {
+          "type": "geo_point",
+          "lat_lon": true,
+          "fielddata" : {
+            "format" : "compressed",
+            "precision" : "3m"
+          }
+        },
+
+        "suggest": {
+          "type": "completion",
+          "preserve_position_increments": false,
+          "preserve_separators": false,
+          "index_analyzer": "suggestions",
+          "search_analyzer": "standard",
+          "payloads": true
+        },
+
+        "tags": {
+          "type" : "object",
+          "dynamic" : false,
+          "index": "no"
+        }
+
+      }
+    },
+
     "geoname": {
 
       "properties": {
+
+        "name": { "type": "string", "index": "no" },
+        "admin0": { "type": "string", "index": "no" },
+        "admin1": { "type": "string", "index": "no" },
+        "admin2": { "type": "string", "index": "no" },
 
         "center_point": {
           "type": "geo_point",
