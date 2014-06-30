@@ -17,16 +17,9 @@
     },
 
     "index": {
-      "refresh_interval": "-1",
       "number_of_replicas": "0",
       "number_of_shards": "8",
-      "index.index_concurrency": "32",
-      "index.merge.policy.merge_factor": "30",
-      "index.translog.flush_threshold_size": "1000mb",
-      "index.translog.flush_threshold_ops": "50000",
-      "index.translog.flush_threshold_period": "120m",
-      "index.translog.interval": "10m",
-      "indices.memory.index_buffer_size": "50%"
+      "index.index_concurrency": "32"
     }
 
   },
@@ -38,7 +31,12 @@
       "properties": {
 
         "center_point": {
-          "type": "geo_point"
+          "type": "geo_point",
+          "lat_lon": true,
+          "fielddata" : {
+            "format" : "compressed",
+            "precision" : "3m"
+          }
         },
 
         "suggest": {
@@ -64,7 +62,7 @@
         "boundaries": {
           "type": "geo_shape",
           "tree": "quadtree",
-          "tree_levels": "17"
+          "tree_levels": "20"
         },
 
         "center_point": {
@@ -94,7 +92,7 @@
         "boundaries": {
           "type": "geo_shape",
           "tree": "quadtree",
-          "tree_levels": "17"
+          "tree_levels": "20"
         },
 
         "center_point": {
@@ -124,7 +122,7 @@
         "boundaries": {
           "type": "geo_shape",
           "tree": "quadtree",
-          "tree_levels": "17"
+          "tree_levels": "20"
         },
 
         "center_point": {
@@ -154,7 +152,7 @@
         "boundaries": {
           "type": "geo_shape",
           "tree": "quadtree",
-          "tree_levels": "17"
+          "tree_levels": "20"
         },
 
         "center_point": {
@@ -184,7 +182,7 @@
         "boundaries": {
           "type": "geo_shape",
           "tree": "quadtree",
-          "tree_levels": "17"
+          "tree_levels": "20"
         },
 
         "center_point": {
@@ -214,7 +212,7 @@
         "boundaries": {
           "type": "geo_shape",
           "tree": "quadtree",
-          "tree_levels": "17"
+          "tree_levels": "20"
         },
 
         "center_point": {
