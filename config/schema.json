@@ -32,7 +32,7 @@
 
         "name": {
           "type" : "object",
-          "dynamic" : false
+          "dynamic" : true
         },
 
         "admin0": { "type": "string" },
@@ -42,6 +42,9 @@
         "center_point": {
           "type": "geo_point",
           "lat_lon": true,
+          "geohash": true,
+          "geohash_prefix": true,
+          "geohash_precision": 20,
           "fielddata" : {
             "format" : "compressed",
             "precision" : "3m"
@@ -54,7 +57,19 @@
           "preserve_separators": false,
           "index_analyzer": "suggestions",
           "search_analyzer": "standard",
-          "payloads": true
+          "payloads": true,
+          "context": {
+            "location": {
+              "type": "geo",
+              "precision": ["1km","100km","1500km","8000km","20040km"],
+              "neighbors": true,
+              "path": "center_point"
+            },
+            "dataset": {
+              "type": "category",
+              "path": "_type"
+            }
+          }
         },
 
         "tags": {
@@ -70,7 +85,11 @@
 
       "properties": {
 
-        "name": { "type": "string", "index": "no" },
+        "name": {
+          "type" : "object",
+          "dynamic" : true
+        },
+        
         "admin0": { "type": "string", "index": "no" },
         "admin1": { "type": "string", "index": "no" },
         "admin2": { "type": "string", "index": "no" },
@@ -78,6 +97,9 @@
         "center_point": {
           "type": "geo_point",
           "lat_lon": true,
+          "geohash": true,
+          "geohash_prefix": true,
+          "geohash_precision": 20,
           "fielddata" : {
             "format" : "compressed",
             "precision" : "3m"
@@ -90,7 +112,19 @@
           "preserve_separators": false,
           "index_analyzer": "suggestions",
           "search_analyzer": "standard",
-          "payloads": true
+          "payloads": true,
+          "context": {
+            "location": {
+              "type": "geo",
+              "precision": ["1km","100km","1500km","8000km","20040km"],
+              "neighbors": true,
+              "path": "center_point"
+            },
+            "dataset": {
+              "type": "category",
+              "path": "_type"
+            }
+          }
         }
 
       }
@@ -111,7 +145,15 @@
         },
 
         "center_point": {
-          "type": "geo_point"
+          "type": "geo_point",
+          "lat_lon": true,
+          "geohash": true,
+          "geohash_prefix": true,
+          "geohash_precision": 20,
+          "fielddata" : {
+            "format" : "compressed",
+            "precision" : "3m"
+          }
         },
 
         "suggest": {
@@ -120,7 +162,19 @@
           "preserve_separators": false,
           "index_analyzer": "suggestions",
           "search_analyzer": "standard",
-          "payloads": true
+          "payloads": true,
+          "context": {
+            "location": {
+              "type": "geo",
+              "precision": ["1km","100km","1500km","8000km","20040km"],
+              "neighbors": true,
+              "path": "center_point"
+            },
+            "dataset": {
+              "type": "category",
+              "path": "_type"
+            }
+          }
         }
 
       }
@@ -141,7 +195,15 @@
         },
 
         "center_point": {
-          "type": "geo_point"
+          "type": "geo_point",
+          "lat_lon": true,
+          "geohash": true,
+          "geohash_prefix": true,
+          "geohash_precision": 20,
+          "fielddata" : {
+            "format" : "compressed",
+            "precision" : "3m"
+          }
         },
 
         "suggest": {
@@ -150,7 +212,19 @@
           "preserve_separators": false,
           "index_analyzer": "suggestions",
           "search_analyzer": "standard",
-          "payloads": true
+          "payloads": true,
+          "context": {
+            "location": {
+              "type": "geo",
+              "precision": ["1km","100km","1500km","8000km","20040km"],
+              "neighbors": true,
+              "path": "center_point"
+            },
+            "dataset": {
+              "type": "category",
+              "path": "_type"
+            }
+          }
         }
 
       }
@@ -171,7 +245,15 @@
         },
 
         "center_point": {
-          "type": "geo_point"
+          "type": "geo_point",
+          "lat_lon": true,
+          "geohash": true,
+          "geohash_prefix": true,
+          "geohash_precision": 20,
+          "fielddata" : {
+            "format" : "compressed",
+            "precision" : "3m"
+          }
         },
 
         "suggest": {
@@ -180,7 +262,19 @@
           "preserve_separators": false,
           "index_analyzer": "suggestions",
           "search_analyzer": "standard",
-          "payloads": true
+          "payloads": true,
+          "context": {
+            "location": {
+              "type": "geo",
+              "precision": ["1km","100km","1500km","8000km","20040km"],
+              "neighbors": true,
+              "path": "center_point"
+            },
+            "dataset": {
+              "type": "category",
+              "path": "_type"
+            }
+          }
         }
 
       }
@@ -201,7 +295,15 @@
         },
 
         "center_point": {
-          "type": "geo_point"
+          "type": "geo_point",
+          "lat_lon": true,
+          "geohash": true,
+          "geohash_prefix": true,
+          "geohash_precision": 20,
+          "fielddata" : {
+            "format" : "compressed",
+            "precision" : "3m"
+          }
         },
 
         "suggest": {
@@ -210,7 +312,19 @@
           "preserve_separators": false,
           "index_analyzer": "suggestions",
           "search_analyzer": "standard",
-          "payloads": true
+          "payloads": true,
+          "context": {
+            "location": {
+              "type": "geo",
+              "precision": ["1km","100km","1500km","8000km","20040km"],
+              "neighbors": true,
+              "path": "center_point"
+            },
+            "dataset": {
+              "type": "category",
+              "path": "_type"
+            }
+          }
         }
 
       }
@@ -231,7 +345,15 @@
         },
 
         "center_point": {
-          "type": "geo_point"
+          "type": "geo_point",
+          "lat_lon": true,
+          "geohash": true,
+          "geohash_prefix": true,
+          "geohash_precision": 20,
+          "fielddata" : {
+            "format" : "compressed",
+            "precision" : "3m"
+          }
         },
 
         "suggest": {
@@ -240,7 +362,19 @@
           "preserve_separators": false,
           "index_analyzer": "suggestions",
           "search_analyzer": "standard",
-          "payloads": true
+          "payloads": true,
+          "context": {
+            "location": {
+              "type": "geo",
+              "precision": ["1km","100km","1500km","8000km","20040km"],
+              "neighbors": true,
+              "path": "center_point"
+            },
+            "dataset": {
+              "type": "category",
+              "path": "_type"
+            }
+          }
         }
 
       }
@@ -261,7 +395,15 @@
         },
 
         "center_point": {
-          "type": "geo_point"
+          "type": "geo_point",
+          "lat_lon": true,
+          "geohash": true,
+          "geohash_prefix": true,
+          "geohash_precision": 20,
+          "fielddata" : {
+            "format" : "compressed",
+            "precision" : "3m"
+          }
         },
 
         "suggest": {
@@ -270,88 +412,19 @@
           "preserve_separators": false,
           "index_analyzer": "suggestions",
           "search_analyzer": "standard",
-          "payloads": true
-        }
-
-      }
-
-    },
-
-    "street": {
-
-      "properties": {
-
-        "osm_id": { "type": "long", "index": "not_analyzed" },
-
-        "boundaries": {
-          "type": "geo_shape"
-        },
-
-        "center_point": {
-          "type": "geo_point"
-        },
-
-        "suggest": {
-          "type": "completion",
-          "preserve_position_increments": false,
-          "preserve_separators": false,
-          "index_analyzer": "suggestions",
-          "search_analyzer": "standard",
-          "payloads": true
-        }
-
-      }
-
-    },
-
-    "address": {
-
-      "properties": {
-
-        "osm_id": { "type": "long", "index": "not_analyzed" },
-
-        "boundaries": {
-          "type": "geo_shape"
-        },
-
-        "center_point": {
-          "type": "geo_point"
-        },
-
-        "suggest": {
-          "type": "completion",
-          "preserve_position_increments": false,
-          "preserve_separators": false,
-          "index_analyzer": "suggestions",
-          "search_analyzer": "standard",
-          "payloads": true
-        }
-
-      }
-
-    },
-
-    "poi": {
-
-      "properties": {
-
-        "osm_id": { "type": "long", "index": "not_analyzed" },
-
-        "boundaries": {
-          "type": "geo_shape"
-        },
-
-        "center_point": {
-          "type": "geo_point"
-        },
-
-        "suggest": {
-          "type": "completion",
-          "preserve_position_increments": false,
-          "preserve_separators": false,
-          "index_analyzer": "suggestions",
-          "search_analyzer": "standard",
-          "payloads": true
+          "payloads": true,
+          "context": {
+            "location": {
+              "type": "geo",
+              "precision": ["1km","100km","1500km","8000km","20040km"],
+              "neighbors": true,
+              "path": "center_point"
+            },
+            "dataset": {
+              "type": "category",
+              "path": "_type"
+            }
+          }
         }
 
       }
