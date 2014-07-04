@@ -19,8 +19,8 @@ sudo apt-get install oracle-java7-installer;
 ```bash
 sudo apt-get update
 cd /tmp
-wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.1.1.deb
-sudo dpkg -i elasticsearch-1.1.1.deb
+wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.1.deb
+sudo dpkg -i elasticsearch-1.2.1.deb
 sudo service elasticsearch start
 ```
 
