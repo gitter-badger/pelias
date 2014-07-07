@@ -82,8 +82,6 @@ npm --version
 1.4.3
 ```
 
-### Install npm dependencies
+### Pelias build script
 
-```bash
-npm install
-```
+https://gist.github.com/missinglink/3129f7cdf7ec3aba2f65
