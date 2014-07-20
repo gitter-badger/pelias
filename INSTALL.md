@@ -24,6 +24,13 @@ sudo dpkg -i elasticsearch-1.2.2.deb
 sudo service elasticsearch start
 ```
 
+### Set Elasticsearch to start at boot time
+`@ref` http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-service.html
+```bash
+sudo update-rc.d elasticsearch defaults 95 10
+sudo /etc/init.d/elasticsearch start
+```
+
 ### Building from Source (advanced users only)
 
 ```bash
