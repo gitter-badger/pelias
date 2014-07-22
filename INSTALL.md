@@ -19,9 +19,16 @@ sudo apt-get install oracle-java7-installer;
 ```bash
 sudo apt-get update
 cd /tmp
-wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.1.deb
-sudo dpkg -i elasticsearch-1.2.1.deb
+wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.2.deb
+sudo dpkg -i elasticsearch-1.2.2.deb
 sudo service elasticsearch start
+```
+
+### Set Elasticsearch to start at boot time
+`@ref` http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup-service.html
+```bash
+sudo update-rc.d elasticsearch defaults 95 10
+sudo /etc/init.d/elasticsearch start
 ```
 
 ### Building from Source (advanced users only)
@@ -54,7 +61,7 @@ curl http://127.0.0.1:9200
   "status" : 200,
   "name" : "Hindsight Lad",
   "version" : {
-    "number" : "1.1.1",
+    "number" : "1.2.2",
     "build_hash" : "f1585f096d3f3985e73456debdc1a0745f512bbc",
     "build_timestamp" : "2014-04-16T14:27:12Z",
     "build_snapshot" : false,
