@@ -18,7 +18,6 @@ if( !mapping ){
 
 client.indices.deleteMapping( { index: _index, type: _type }, function( err, res ){
   console.log( '[delete mapping]', '\t', _index+'/'+_type, err || '\t', res );
-  if( err ) process.exit( 0 );
   client.indices.putMapping( { index: _index, type: _type, body:mapping }, function( err, res ){
     console.log( '[put mapping]', '\t\t', _index+'/'+_type, err || '\t', res );
     process.exit( !!err );
