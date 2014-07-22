@@ -1,6 +1,6 @@
 
 var client = require('pelias-esclient')(),
-    schema = require('../config/schema.json');
+    schema = require('../config/schema');
 
 var _index = ( process.argv.length > 3 ) ? process.argv[3] : 'pelias';
 var _type = ( process.argv.length > 2 ) ? process.argv[2] : null; // get type from cli args
