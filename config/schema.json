@@ -56,7 +56,62 @@
           "preserve_position_increments": false,
           "preserve_separators": false,
           "index_analyzer": "suggestions",
-          "search_analyzer": "standard",
+          "search_analyzer": "suggestions",
+          "payloads": true,
+          "context": {
+            "location": {
+              "type": "geo",
+              "precision": ["1km","100km","1500km","8000km","20040km"],
+              "neighbors": true,
+              "path": "center_point"
+            },
+            "dataset": {
+              "type": "category",
+              "path": "_type"
+            }
+          }
+        },
+
+        "tags": {
+          "type" : "object",
+          "dynamic" : false,
+          "index": "no"
+        }
+
+      }
+    },
+
+    "osmway": {
+
+      "properties": {
+
+        "name": {
+          "type" : "object",
+          "dynamic" : true
+        },
+
+        "admin0": { "type": "string" },
+        "admin1": { "type": "string" },
+        "admin2": { "type": "string" },
+
+        "center_point": {
+          "type": "geo_point",
+          "lat_lon": true,
+          "geohash": true,
+          "geohash_prefix": true,
+          "geohash_precision": 20,
+          "fielddata" : {
+            "format" : "compressed",
+            "precision" : "3m"
+          }
+        },
+
+        "suggest": {
+          "type": "completion",
+          "preserve_position_increments": false,
+          "preserve_separators": false,
+          "index_analyzer": "suggestions",
+          "search_analyzer": "suggestions",
           "payloads": true,
           "context": {
             "location": {
@@ -111,7 +166,7 @@
           "preserve_position_increments": false,
           "preserve_separators": false,
           "index_analyzer": "suggestions",
-          "search_analyzer": "standard",
+          "search_analyzer": "suggestions",
           "payloads": true,
           "context": {
             "location": {
@@ -161,7 +216,7 @@
           "preserve_position_increments": false,
           "preserve_separators": false,
           "index_analyzer": "suggestions",
-          "search_analyzer": "standard",
+          "search_analyzer": "suggestions",
           "payloads": true,
           "context": {
             "location": {
@@ -211,7 +266,7 @@
           "preserve_position_increments": false,
           "preserve_separators": false,
           "index_analyzer": "suggestions",
-          "search_analyzer": "standard",
+          "search_analyzer": "suggestions",
           "payloads": true,
           "context": {
             "location": {
@@ -261,7 +316,7 @@
           "preserve_position_increments": false,
           "preserve_separators": false,
           "index_analyzer": "suggestions",
-          "search_analyzer": "standard",
+          "search_analyzer": "suggestions",
           "payloads": true,
           "context": {
             "location": {
@@ -311,7 +366,7 @@
           "preserve_position_increments": false,
           "preserve_separators": false,
           "index_analyzer": "suggestions",
-          "search_analyzer": "standard",
+          "search_analyzer": "suggestions",
           "payloads": true,
           "context": {
             "location": {
@@ -361,7 +416,7 @@
           "preserve_position_increments": false,
           "preserve_separators": false,
           "index_analyzer": "suggestions",
-          "search_analyzer": "standard",
+          "search_analyzer": "suggestions",
           "payloads": true,
           "context": {
             "location": {
@@ -411,7 +466,7 @@
           "preserve_position_increments": false,
           "preserve_separators": false,
           "index_analyzer": "suggestions",
-          "search_analyzer": "standard",
+          "search_analyzer": "suggestions",
           "payloads": true,
           "context": {
             "location": {
