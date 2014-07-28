@@ -1,8 +1,3 @@
 
-var client = require('pelias-esclient')(),
-    schema = require('../config/schema');
-
-client.indices.create( { index: 'pelias', body: schema }, function( err, res ){
-  console.log( '[put mapping]', '\t', 'pelias', err || '\t', res );
-  process.exit( !!err );
-});
+console.warn( 'THIS SCRIPT IS DEPRECATED!!' );
+console.warn( '@see: https://github.com/pelias/schema' );
