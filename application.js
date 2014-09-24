@@ -15,7 +15,7 @@ angular.module('play').directive('mapDemo', function () {
 
     link: function (scope, element) {
 
-      scope.map = L.mapbox.map('map', 'randyme.gajlngfe', { zoomControl: false });
+      scope.map = L.mapbox.map('map', 'randyme.4d62ee7c', { zoomControl: false });
       new L.Control.Zoom({ position: 'bottomright' }).addTo(scope.map);
 
       scope.map.on('locationfound', function (e) { scope.map.fitBounds(e.bounds, { maxZoom: 15 }); });
