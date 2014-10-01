@@ -16,11 +16,13 @@ sudo apt-get install oracle-java7-installer;
 
 ### Install ElasticSearch Service (debian/ubuntu)
 
+**Always use the latest version over the one specified here**
+
 ```bash
 sudo apt-get update
 cd /tmp
-wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.2.deb
-sudo dpkg -i elasticsearch-1.2.2.deb
+wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.4.deb
+sudo dpkg -i elasticsearch-1.3.4.deb
 sudo service elasticsearch start
 ```
 
@@ -53,23 +55,38 @@ On `ubuntu` you can change this setting by editing `/etc/init.d/elasticsearch` a
 ### Confirm Install
 
 ```bash
-curl http://127.0.0.1:9200
+curl localhost:9200
 ```
 
 ```javascript
 {
   "status" : 200,
-  "name" : "Hindsight Lad",
+  "name" : "Iron Man",
   "version" : {
-    "number" : "1.2.2",
-    "build_hash" : "f1585f096d3f3985e73456debdc1a0745f512bbc",
-    "build_timestamp" : "2014-04-16T14:27:12Z",
+    "number" : "1.3.4",
+    "build_hash" : "a70f3ccb52200f8f2c87e9c370c6597448eb3e45",
+    "build_timestamp" : "2014-09-30T09:07:17Z",
     "build_snapshot" : false,
-    "lucene_version" : "4.7"
+    "lucene_version" : "4.9"
   },
   "tagline" : "You Know, for Search"
 }
+
 ```
+
+### EsRejectedExecutionException in ES > `1.2.1`
+
+If you expereience the error `EsRejectedExecutionException` during imports you may be able to fix this with:
+
+```bash
+curl -XPUT localhost:9200/_cluster/settings -d '{
+    "transient" : {
+        "threadpool.bulk.queue_size" : 100
+    }
+}'
+```
+
+**Note** this setting will be removed on a server restart.
 
 ### Install node.js
 
@@ -81,12 +98,14 @@ sudo bash nave.sh usemain stable
 
 ### Confirm Install
 
+**Always use the latest version over the one specified here**
+
 ```bash
 node --version
-v0.10.26
+v0.10.30
 
 npm --version
-1.4.3
+1.4.21
 ```
 
 **note** you should be running `at least` npm `1.4+`
