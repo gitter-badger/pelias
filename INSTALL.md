@@ -80,13 +80,11 @@ If you expereience the error `EsRejectedExecutionException` during imports you m
 
 ```bash
 curl -XPUT localhost:9200/_cluster/settings -d '{
-    "transient" : {
-        "threadpool.bulk.queue_size" : 100
+    "persistent" : {
+        "threadpool.bulk.queue_size" : 250
     }
 }'
 ```
-
-**Note** this setting will be removed on a server restart.
 
 ### Install node.js
 
